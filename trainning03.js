@@ -34,16 +34,16 @@ function comparison(req, res) {
 			console.log(error)
 		} else {
 			R = response
+			console.log(`R${R}`)
+			if (number > R) {
+				res.send('bigger')
+			} else if (number < R) {
+				res.send('smaller')
+			} else {
+				res.send('equal')
+			}
 		}
 	})
-	console.log(`R${R}`)
-	if (number > R) {
-		res.send('bigger')
-	} else if (number < R) {
-		res.send('smaller')
-	} else {
-		res.send('equal')
-	}
 }
 app.get('/:number', (req, res) => {
 	comparison(req, res)
