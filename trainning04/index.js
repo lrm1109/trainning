@@ -2,7 +2,6 @@ const express = require('express')
 const redis = require('redis')
 
 const app = express()
-let R
 const cacheKey = 'randomKey'
 const client = redis.createClient()
 client.on('error', (error) => {
@@ -11,8 +10,8 @@ client.on('error', (error) => {
 
 app.set('view engine', 'ejs')
 
-app.get('/start', (req, res) => {
-	R = Number(Math.random() * 100).toFixed(0)
+function getRandom() {
+	const R = Number(Math.random() * 100).toFixed(0)
 	client.set(cacheKey, R, (error, response) => {
 		if (error) {
 			console.log(error)
@@ -21,29 +20,38 @@ app.get('/start', (req, res) => {
 		}
 	})
 	console.log(R)
+}
+
+app.get('/', (req, res) => {
+	getRandom()
 	res.render('index')
-	// res.sendFile(`${__dirname}/index.html`)
+})
+
+app.get('/start', (req, res) => {
+	getRandom()
+	// res.render('index')
+	res.send('OK')
 })
 function comparison(req, res) {
 	const number = Number(req.params.number)
 	client.get(cacheKey, (error, response) => {
 		if (error) {
 			console.log(error)
-		} else {
-			R = response
 		}
 		let result
-		if (number > R) {
+		if (number > response) {
 			result = 'bigger'
-		} else if (number < R) {
+		} else if (number < response) {
 			result = 'smaller'
 		} else {
 			result = 'equal'
 		}
 		// res.send(result)
-		res.json(result)
+		res.send(result)
 	})
 }
 app.post('/:number', (req, res) => {
 	comparison(req, res)
 }).listen(8081)
+
+module.exports = app
