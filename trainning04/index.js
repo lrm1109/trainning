@@ -22,9 +22,10 @@ app.get('/start', (req, res) => {
 	})
 	console.log(R)
 	res.render('index')
+	// res.sendFile(`${__dirname}/index.html`)
 })
 function comparison(req, res) {
-	const number = Number(req.query.number)
+	const number = Number(req.params.number)
 	client.get(cacheKey, (error, response) => {
 		if (error) {
 			console.log(error)
@@ -39,10 +40,10 @@ function comparison(req, res) {
 		} else {
 			result = 'equal'
 		}
-		res.send(result)
-		// res.render('index', result)
+		// res.send(result)
+		res.json(result)
 	})
 }
-app.get('/result', (req, res) => {
+app.post('/:number', (req, res) => {
 	comparison(req, res)
 }).listen(8081)

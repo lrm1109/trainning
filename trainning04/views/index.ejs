@@ -1,12 +1,34 @@
 <html>
+<head>
+    <title>Number Guesser</title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        function sendNum() {
+            $.ajax({
+                type: "POST",
+                url: "/"+$("#number").val(),
+                dataType: "json",
+                success: function(data){
+                    if(data){  
+                        $('#result').text(data)
+                    } else{  
+                        alert('失败');
+                    }                      
+                }
+	         });
+        }
+        function restart(){
+            $.get('/start',function(){
+                $('#result').text('');
+            })
+       }    
+    </script>
+</head>
 <body>
-<form action="http://127.0.0.1:8081/result" method="GET">
     <h2>Number Guesser</h2>
-    <input type="text" name="number">  <br>
-    <button type="reset" value="Reset">Reset</button>
-    <!-- <input type="submit" value="Submit"> -->
-    <button type="submit" value="Submit">Submit</button>
-</form>
-<h3>bigger/smaller/equel</h3>
+    <input id="number" type="text" name="number">  <br>
+    <button id="restartBtn"  type="button" onclick="restart()">restart</button>
+    <button id="submitBtn"  type="button" onclick="sendNum()">submit</button>
+    <h3 id='result'></h3>
 </body>
 </html>
