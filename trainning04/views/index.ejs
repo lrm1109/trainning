@@ -7,7 +7,6 @@
             $.ajax({
                 type: "POST",
                 url: "/"+$("#number").val(),
-                dataType: "json",
                 success: function(data){
                     if(data){  
                         $('#result').text(data)
@@ -18,8 +17,8 @@
 	         });
         }
         function restart(){
-            $.get('/start',function(){
-                $('#result').text('');
+            $.get('/start',function(data){
+                $('#result').text(data);
             })
        }    
     </script>
