@@ -25,24 +25,66 @@ describe('/:number func test', () => {
 	})
 })
 
+// function test(num) {
+// 	request.post(`/${num}`).end((err, res) => {
+// 		if (!err) {
+// 			res.text.should.match((n) => {
+// 				if (n === 'equal') {
+// 					return true
+// 				}
+// 				const i = _.random(100)
+// 				console.log(i)
+// 				return test(i)
+// 			})
+// 		} else {
+// 			return false
+// 		}
+// 	})
+// }
+
+// function compareEqual(num) {
+// 	return new Promise((resolve, reject) => {
+// 		const flag = test(num)
+// 		if (flag) {
+// 			resolve('equal')
+// 		} else {
+// 			reject()
+// 		}
+// 	})
+// }
+
+// function compareEqual(num, done) {
+// 	request.post(`/${num}`).end((err, res) => {
+// 		if (!err) {
+// 			res.text.should.match((n) => {
+// 				if (n === 'equal') {
+// 					res.text.should.equal('equal')
+// 					done()
+// 				} else {
+// 					const i = _.random(100)
+// 					console.log(i)
+// 					compareEqual(i)
+// 				}
+// 			})
+// 		} else {
+// 			done(err)
+// 		}
+// 	})
+// }
+
 function compareEqual(num, done) {
-	return new Promise((resolve, reject) => {
-		request.post(`/${num}`).end((err, res) => {
-			if (!err) {
-				res.text.should.match((n) => {
-					if (n === 'equal') {
-						resolve('equal')
-						done()
-					} else {
-						const i = _.random(100)
-						console.log(i)
-						compareEqual(i)
-					}
-				})
-			} else {
-				reject()
-			}
-		})
+	request.post(`/${num}`).end((err, res) => {
+		if (!err) {
+			res.text.should.match((n) => {
+				if (n === 'equal') {
+					done()
+				} else {
+					const i = _.random(100)
+					console.log(i)
+					return compareEqual(i, done)
+				}
+			})
+		}
 	})
 }
 
@@ -56,6 +98,7 @@ describe('play game test', () => {
 	})
 	it('should return equal', (done) => {
 		const num = _.random(100)
-		return compareEqual(num, done()).should.be.fulfilledWith('equal')
+		// const num = 0
+		compareEqual(num, done)
 	})
 })
