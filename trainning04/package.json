@@ -12,7 +12,9 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "redis": "^2.8.0",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
     "should": "^13.2.1",
     "supertest": "^3.1.0"
   }
