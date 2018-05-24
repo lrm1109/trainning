@@ -25,53 +25,6 @@ describe('/:number func test', () => {
 	})
 })
 
-// function test(num) {
-// 	request.post(`/${num}`).end((err, res) => {
-// 		if (!err) {
-// 			res.text.should.match((n) => {
-// 				if (n === 'equal') {
-// 					return true
-// 				}
-// 				const i = _.random(100)
-// 				console.log(i)
-// 				return test(i)
-// 			})
-// 		} else {
-// 			return false
-// 		}
-// 	})
-// }
-
-// function compareEqual(num) {
-// 	return new Promise((resolve, reject) => {
-// 		const flag = test(num)
-// 		if (flag) {
-// 			resolve('equal')
-// 		} else {
-// 			reject()
-// 		}
-// 	})
-// }
-
-// function compareEqual(num, done) {
-// 	request.post(`/${num}`).end((err, res) => {
-// 		if (!err) {
-// 			res.text.should.match((n) => {
-// 				if (n === 'equal') {
-// 					res.text.should.equal('equal')
-// 					done()
-// 				} else {
-// 					const i = _.random(100)
-// 					console.log(i)
-// 					compareEqual(i)
-// 				}
-// 			})
-// 		} else {
-// 			done(err)
-// 		}
-// 	})
-// }
-
 function compareEqual(num, done) {
 	request.post(`/${num}`).end((err, res) => {
 		if (!err) {
