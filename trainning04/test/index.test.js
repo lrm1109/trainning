@@ -1,6 +1,7 @@
 const app = require('../index.js')
 const supertest = require('supertest')
 const should = require('should')
+const _ = require('lodash')
 
 const request = supertest(app)
 
@@ -24,15 +25,18 @@ describe('/:number func test', () => {
 	})
 })
 
-function compareEqual(num) {
+function compareEqual(num, done) {
 	return new Promise((resolve, reject) => {
 		request.post(`/${num}`).end((err, res) => {
-			if (res.text.should.equalOneOf('bigger', 'smaller', 'equal')) {
+			if (!err) {
 				res.text.should.match((n) => {
 					if (n === 'equal') {
 						resolve('equal')
+						done()
 					} else {
-						compareEqual(Number(Math.random() * 100).toFixed(0))
+						const i = _.random(100)
+						console.log(i)
+						compareEqual(i)
 					}
 				})
 			} else {
@@ -50,8 +54,8 @@ describe('play game test', () => {
 			done(err)
 		})
 	})
-	it('should return equal', () => {
-		const num = Number(Math.random() * 100).toFixed(0)
-		compareEqual(num).should.be.fulfilledWith('equal')
+	it('should return equal', (done) => {
+		const num = _.random(100)
+		return compareEqual(num, done()).should.be.fulfilledWith('equal')
 	})
 })
