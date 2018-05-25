@@ -25,19 +25,18 @@ describe('/:number func test', () => {
 	})
 })
 
-function compareEqual(num, done) {
+const compareEqual = (num, done) => {
 	request.post(`/${num}`).end((err, res) => {
-		if (!err) {
-			res.text.should.match((n) => {
-				if (n === 'equal') {
-					done()
-				} else {
-					const i = _.random(100)
-					console.log(i)
-					return compareEqual(i, done)
-				}
-			})
-		}
+		should.not.exist(err)
+		res.text.should.match((n) => {
+			if (n === 'equal') {
+				done()
+			} else {
+				const i = _.random(100)
+				console.log(i)
+				compareEqual(i, done)
+			}
+		})
 	})
 }
 
