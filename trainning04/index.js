@@ -1,5 +1,6 @@
 const express = require('express')
 const redis = require('redis')
+const _ = require('lodash')
 
 const app = express()
 const cacheKey = 'randomKey'
@@ -11,7 +12,7 @@ client.on('error', (error) => {
 app.set('view engine', 'ejs')
 
 function getRandom() {
-	const R = Number(Math.random() * 100).toFixed(0)
+	const R = _.random(100)
 	client.set(cacheKey, R, (error, response) => {
 		if (error) {
 			console.log(error)
