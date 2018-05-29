@@ -55,18 +55,18 @@ const play = async () => {
 		let num = await callbackToPromise(0, MAX)
 		console.log(`callback: equal, guess ${num}`)
 
+		await comparePromise(0, MAX).then((number) => {
+			console.log(`promise: equal, guess ${number}`)
+		})
+
 		num = await comparisonAsync(0, MAX)
 		console.log(`async: equal, guess ${num}`)
 	} catch (err) {
 		console.log('Error', err)
 	}
-
-	await comparePromise(0, MAX).then((number) => {
-		console.log(`promise: equal, guess ${number}`)
-	}).catch((err) => {
-		console.log(err)
-	})
 }
 
-play()
+play().catch((err) => {
+	console.log(err)
+})
 
