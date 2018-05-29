@@ -12,7 +12,8 @@ client.on('error', (error) => {
 app.set('view engine', 'ejs')
 
 function getRandom() {
-	const R = _.random(100)
+	// console.log(process.argv[2])
+	const R = _.random(Number(process.argv[2]))
 	client.set(cacheKey, R, (error, response) => {
 		if (error) {
 			console.log(error)
@@ -46,6 +47,7 @@ function comparison(req, res) {
 			result = 'smaller'
 		} else {
 			result = 'equal'
+			getRandom()
 		}
 		// res.send(result)
 		res.send(result)
@@ -53,6 +55,7 @@ function comparison(req, res) {
 }
 app.post('/:number', (req, res) => {
 	comparison(req, res)
-}).listen(8081)
+})
 
+app.listen(8081)
 module.exports = app
