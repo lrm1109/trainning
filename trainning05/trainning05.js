@@ -3,7 +3,7 @@ const rp = require('request-promise')
 
 const MAX = 1000000
 const comparisonCallback = (minNum, maxNum, callback) => {
-	const num = ((minNum + maxNum) / 2).toFixed(0)
+	const num = Math.floor((minNum + maxNum) / 2)
 	console.log(num)
 	request.post(`http://localhost:8081/${num}`, (error, response, body) => {
 		if (error) {
@@ -12,23 +12,23 @@ const comparisonCallback = (minNum, maxNum, callback) => {
 		if (body === 'equal') {
 			callback(num)
 		} else if (body === 'bigger') {
-			comparisonCallback(minNum, Math.floor(num), callback)
+			comparisonCallback(minNum, num, callback)
 		} else if (body === 'smaller') {
-			comparisonCallback(Math.ceil(num), maxNum, callback)
+			comparisonCallback(num, maxNum, callback)
 		}
 	})
 }
 
 
 const comparePromise = (minNum, maxNum) => {
-	const number = ((minNum + maxNum) / 2).toFixed(0)
+	const number = Math.floor((minNum + maxNum) / 2)
 	console.log(number)
 	const options = { url: `http://localhost:8081/${number}`, method: 'POST' }
 	return rp(options).then((response) => {
 		if (response === 'bigger') {
-			return comparePromise(minNum, Math.floor(number))
+			return comparePromise(minNum, number)
 		} else if (response === 'smaller') {
-			return comparePromise(Math.ceil(number), maxNum)
+			return comparePromise(number, maxNum)
 		}
 		return number
 	}).catch((err) => {
@@ -39,14 +39,14 @@ const comparePromise = (minNum, maxNum) => {
 
 const comparisonAsync = async (minNum, maxNum) => {
 	try {
-		const number = ((minNum + maxNum) / 2).toFixed(0)
+		const number = Math.floor((minNum + maxNum) / 2)
 		console.log(number)
 		const options = { url: `http://localhost:8081/${number}`, method: 'POST' }
 		const response = await rp(options)
 		if (response === 'bigger') {
-			return await comparePromise(minNum, Math.floor(number))
+			return await comparePromise(minNum, number)
 		} else if (response === 'smaller') {
-			return await comparePromise(Math.ceil(number), maxNum)
+			return await comparePromise(number, maxNum)
 		}
 		return number
 	} catch (err) {
