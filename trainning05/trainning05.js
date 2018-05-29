@@ -31,8 +31,6 @@ const comparePromise = (minNum, maxNum) => {
 			return comparePromise(number, maxNum)
 		}
 		return number
-	}).catch((err) => {
-		console.log(err)
 	})
 }
 
@@ -54,7 +52,6 @@ const comparisonAsync = async (minNum, maxNum) => {
 	}
 }
 
-
 async function play() {
 	await rp('http://localhost:8081/start')
 
@@ -64,6 +61,8 @@ async function play() {
 
 	comparePromise(0, MAX).then((number) => {
 		console.log(`promise: equal, guess ${number}`)
+	}).catch((err) => {
+		console.log(err)
 	})
 
 	console.log(`async: equal, guess ${await comparisonAsync(0, MAX)}`)
