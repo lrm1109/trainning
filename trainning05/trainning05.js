@@ -51,19 +51,15 @@ const play = async () => {
 
 	const callbackToPromise = util.promisify(comparisonCallback)
 
-	try {
-		let num = await callbackToPromise(0, MAX)
-		console.log(`callback: equal, guess ${num}`)
+	let num = await callbackToPromise(0, MAX)
+	console.log(`callback: equal, guess ${num}`)
 
-		await comparePromise(0, MAX).then((number) => {
-			console.log(`promise: equal, guess ${number}`)
-		})
+	await comparePromise(0, MAX).then((number) => {
+		console.log(`promise: equal, guess ${number}`)
+	})
 
-		num = await comparisonAsync(0, MAX)
-		console.log(`async: equal, guess ${num}`)
-	} catch (err) {
-		console.log('Error', err)
-	}
+	num = await comparisonAsync(0, MAX)
+	console.log(`async: equal, guess ${num}`)
 }
 
 play().catch((err) => {
